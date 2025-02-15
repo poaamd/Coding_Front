@@ -2,20 +2,80 @@
   box-sizing: border-box;
 }
 
-.container {
-  margin: 50px auto;
-  width: 800px;
+body {
+  margin: 0%;
+  background: rgb(245, 245, 245);
+  font-family: "Roboto", serif;
+  font-weight: 400;
+  font-style: normal;
 }
-
-.logo {
-  width: 400px;
-  margin: 10px 200px;
-}
-
 a {
-  text-decoration: none;
-  color: #000;
+  color: red;
 }
 a:hover {
-  color: #757575;
+  color: brown;
+}
+.container {
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+header {
+  text-align: center;
+  justify-items: center;
+}
+header img {
+  margin-top: 20px;
+  width: 300px;
+  opacity: 0.8;
+}
+header img:hover {
+  opacity: 1;
+}
+.nav {
+  display: flex;
+  list-style: none;
+  margin-bottom: 0%;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
+.nav li {
+  margin: 10px;
+}
+
+.li-about a:hover {
+  color: #ff6b6b;
+}
+.li-Records a:hover {
+  color: #4ecdc4;
+}
+.li-News a:hover {
+  color: green;
+}
+.li-Sponsers a:hover {
+  color: #8e44ad;
+}
+
+.table {
+  width: 100%;
+  text-align: center;
+  border: solid 2px rgb(160, 160, 160);
+}
+.table-head {
+  text-align: center;
+  background: rgb(219, 219, 219);
+}
+.table-body {
+  background: white;
+}
+
+.td-align {
+  text-align: left;
+}
+
+footer {
+  text-align: center;
+  font-size: 10px;
 }

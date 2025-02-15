@@ -1,0 +1,114 @@
+* {
+  box-sizing: border-box;
+}
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+body {
+  background: #2a8260;
+  color: #ffffff;
+  font-family: "Roboto", sans-serif;
+}
+
+.container {
+  width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile {
+  text-align: center;
+}
+
+.profile-pic {
+  width: 95px;
+  height: 95px;
+  border: solid 1px white;
+  border-radius: 50px;
+  margin-top: 59px;
+}
+.profile-name {
+  margin-top: 11px;
+  margin-bottom: 0px;
+}
+.profile-job {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  color: #79b39d;
+}
+
+.social-links {
+  display: inline;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+}
+
+.social-links-WhatsApp {
+  margin-left: 40px;
+  margin-right: 20px;
+}
+
+.social-links-Instagram {
+  margin-right: 20px;
+}
+
+.social-links-Twitter {
+  margin-right: 40px;
+  margin-left: 20px;
+}
+
+.social-links-WhatsApp:hover {
+  opacity: 0.5;
+}
+.social-links-Instagram:hover {
+  opacity: 0.5;
+}
+.social-links-Twitter:hover {
+  opacity: 0.5;
+}
+.social-links-Telegram:hover {
+  opacity: 0.5;
+}
+
+.contact {
+  margin-top: 40px;
+  margin-bottom: 239px;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 320px;
+}
+.contact-value:hover {
+  opacity: 0.5;
+}
+
+.contact-value {
+  text-align: right;
+}
+
+.resume-button {
+  background: #243b48;
+  color: #f3f4f9;
+  text-align: center;
+  height: 46px;
+  border-radius: 12px;
+  padding-top: 14px;
+  padding-bottom: 16px;
+  font-size: 14px;
+  font-weight: 400;
+  font: Roboto;
+}
+
+.resume-button:hover {
+  background: #2e5267;
+  cursor: pointer;
+}
+
+/* Media query for mobile devices */
+@media only screen and (max-width: 768px) {
+  .contact {
+    margin-bottom: 40px;
+  }
+}

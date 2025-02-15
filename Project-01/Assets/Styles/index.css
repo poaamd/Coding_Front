@@ -1,0 +1,8 @@
+* {
+  box-sizing: border-box;
+  background: rgb(213, 213, 213);
+}
+.container {
+  margin: 50px auto;
+  width: 800px;
+}

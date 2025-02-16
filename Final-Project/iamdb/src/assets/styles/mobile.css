@@ -1,0 +1,90 @@
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+    max-width: 430;
+    padding: 32px 12px;
+    margin: 0 auto;
+  }
+
+  .empty {
+    width: 406;
+    height: 240;
+    padding-bottom: 200px;
+    gap: 32px;
+  }
+
+  .logo {
+    width: 100%;
+    font-weight: 900;
+    font-size: 100px;
+    line-height: 121.02px;
+    letter-spacing: 0%;
+    text-align: center;
+    color: var(--text-color);
+  }
+
+  .search-bar {
+    background: var(--secondary-color);
+    position: relative;
+    margin: 32px auto;
+    width: 100%;
+    height: 48px;
+    border-radius: 16px;
+  }
+  .text_area {
+    background: var(--secondary-color);
+    margin: 0 50px;
+    width: 72%;
+    height: 100%;
+    border: none;
+    outline: none;
+    border-radius: 16px;
+    color: var(--text-color);
+    font-size: large;
+  }
+  .search_icon {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    width: 24px;
+  }
+  .search_icon:hover {
+    opacity: 0.5;
+  }
+  .mic_icon:hover {
+    opacity: 0.5;
+  }
+
+  .mic_icon {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 40px;
+    height: 24px;
+  }
+
+  .genres_btn {
+    width: 58;
+    height: 27;
+    padding-top: 6px;
+    padding-right: 12px;
+    padding-bottom: 6px;
+    padding-left: 12px;
+    border-radius: 8px;
+    background: var(--secondary-color);
+    color: var(--text-color);
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14.52px;
+    letter-spacing: 0%;
+  }
+
+  .genres {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 56.5px;
+  }
+}

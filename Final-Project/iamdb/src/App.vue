@@ -1,15 +1,8 @@
 <script setup>
-import SearchBar from "@/components/SearchBar.vue";
+import home from "@/components/home.vue";
+// import SearchBar from "@/components/SearchBar.vue";
 </script>
 
 <template>
-  <SearchBar />
+  <home />
 </template>
-<style>
-* {
-  box-sizing: border-box;
-}
-body {
-  background: rgba(7, 13, 35, 1);
-}
-</style>

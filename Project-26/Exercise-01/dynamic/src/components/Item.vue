@@ -1,5 +1,6 @@
 <script setup>
-defineProps(["name"]);
+const props = defineProps(["name"]);
+console.log(props.name);
 </script>
 <template>
   <li>{{ name }}</li>

@@ -17,11 +17,15 @@ const list = [
     email: "Alex@mail.com",
   },
 ];
+
+const Jay = "Dynamic Jay";
 </script>
 
 <template>
   <div>App.vue</div>
   <ul>
     <Item v-for="item in list" :name="item.name" />
+    <Item name="Pouya" />
+    <Item :name="Jay" />
   </ul>
 </template>

@@ -1,6 +1,8 @@
 <script setup>
 import Item from "@/components/Item.vue";
 import { ref } from "vue";
+import AsyncComp from "./components/AsyncComp.vue";
+import Fetch from "./components/fetch.vue";
 // const list = [
 //   {
 //     id: 1,
@@ -47,21 +49,23 @@ const sayCongrats = (item) => {
 </script>
 
 <template>
-  <div>App.vue</div>
+  <!-- <div>App.vue</div> -->
   <!-- <ul>
     <Item v-for="item in list" :name="item.name" />
     <Item name="Pouya" />
     <Item :name="Jay" />
   </ul> -->
-  <input type="text" v-model="name" />
-  <button @click="addName">Add</button>
+  <!-- <input type="text" v-model="name" /> -->
+  <!-- <button @click="addName">Add</button> -->
 
   <!-- Display the list of items using the Item component -->
-  <ul>
+  <!-- <ul>
     <Item
       v-for="item in list"
       :name="item.name"
       @congrats="sayCongrats(item)"
     />
-  </ul>
+  </ul> -->
+  <!-- <AsyncComp /> -->
+  <Fetch />
 </template>

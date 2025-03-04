@@ -1,0 +1,1 @@
+<template>Detailed view</template>

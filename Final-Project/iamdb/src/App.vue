@@ -1,8 +1,10 @@
-<script setup>
-import home from "@/components/home.vue";
-// import SearchBar from "@/components/SearchBar.vue";
-</script>
+<script setup></script>
 
 <template>
-  <home />
+  <div>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/Search-Results">Search Results</RouterLink>
+    <RouterLink to="/Movie-Details">Movie Details</RouterLink>
+    <RouterView />
+  </div>
 </template>

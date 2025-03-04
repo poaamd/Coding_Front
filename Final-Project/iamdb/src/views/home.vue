@@ -1,7 +1,10 @@
 <script setup>
+import { ref } from "vue";
 import SearchBar from "@/components/SearchBar.vue";
+import Buttons from "@/components/Buttons.vue";
 
-const genres = ["Crime", "Drama", "Action", "Biography"];
+import genres from "@/utils/genres.js";
+const genresList = ref(genres);
 </script>
 
 <template>
@@ -9,13 +12,6 @@ const genres = ["Crime", "Drama", "Action", "Biography"];
     <div class="empty"></div>
     <div class="logo">IAMDb</div>
     <SearchBar />
-    <div class="genres" v-for="genre in genres">
-      <button class="genres_btn">{{ genre }}</button>
-      <!-- <button class="genres_btn">Drama</button>
-      <button class="genres_btn">Action</button>
-      <button class="genres_btn">Biography</button>
-      <button class="genres_btn">Show more ></button> -->
-    </div>
+    <Buttons :genres="genresList" />
   </div>
 </template>
-<style></style>

@@ -21,14 +21,10 @@ const search = async () => {
     <input v-model="userInput" class="text_area" type="text" />
 
     <button @click="search">
-      <img
-        src="@/assets/icons/search_icon.svg"
-        alt="Search icon"
-        class="search_icon"
-      />
+      <img src="/icons/search_icon.svg" alt="Search icon" class="search_icon" />
     </button>
     <a href="#" title="Use your voice for search">
-      <img src="@/assets/icons/mic_icon.svg" alt="Mic icon" class="mic_icon" />
+      <img src="/icons/Mic_icon.svg" alt="Mic icon" class="mic_icon" />
     </a>
   </div>
   <!-- <product-item

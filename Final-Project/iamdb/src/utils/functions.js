@@ -1,4 +1,4 @@
-// import genres from "@/utils/genres.js";
+import genres from "@/utils/genres.js";
 // const filterByGenre = (movies, genre) => {
 //   return movies.filter((movie) => movie.genre_ids.includes(genre.id));
 // };

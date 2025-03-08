@@ -4,15 +4,19 @@ import Details from "@/views/Detail.vue";
 const routes = [
   {
     path: "/",
+    name: "home",
     component: Home,
   },
   {
-    path: "/Search-Results",
+    path: "/list",
+    name: "list",
     component: List,
   },
   {
-    path: "/Movie-Details",
+    path: "/Details",
+    name: "details",
     component: Details,
   },
 ];
+
 export default routes;

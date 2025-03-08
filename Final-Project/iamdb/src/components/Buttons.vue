@@ -9,7 +9,6 @@ const displayGenres = computed(() => {
 });
 const showMore = () => {
   isExpanded.value = !isExpanded.value;
-  console.log("Show More", isExpanded.value);
 };
 </script>
 

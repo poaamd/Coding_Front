@@ -1,41 +1,79 @@
 <script setup>
-import MovieCard from "@/components/MovieCard.vue";
 import { ref } from "vue";
-const apiEndPoint = "https://moviesapi.codingfront.dev/api/v1/movies?q";
+import { useRouter } from "vue-router";
 
 const userInput = ref("");
-const movies = ref([]);
-const search = async () => {
-  const response = await fetch(`${apiEndPoint}${userInput.value}`);
-  const data = await response.json();
-  if (!response.ok) {
-    return;
+const router = useRouter();
+
+const searchMovies = async () => {
+  if (userInput.value.trim()) {
+    router.push({ name: "list", query: { search: userInput.value } });
   }
-  console.log(data.data);
-  movies.value = data.data;
+};
+
+const handleKeyUp = (event) => {
+  if (event.key === "Enter") {
+    searchMovies();
+  }
 };
 </script>
 
 <template>
   <div class="search-bar">
-    <input v-model="userInput" class="text_area" type="text" />
-
-    <button @click="search">
+    <input
+      v-model="userInput"
+      class="text_area"
+      type="text"
+      :placeholder="userInput || 'Search for a movie...'"
+      @keyup="handleKeyUp"
+    />
+    <button @click="searchMovies">
       <img src="/icons/search_icon.svg" alt="Search icon" class="search_icon" />
     </button>
     <a href="#" title="Use your voice for search">
       <img src="/icons/Mic_icon.svg" alt="Mic icon" class="mic_icon" />
     </a>
   </div>
-  <!-- <product-item
-    v-for="prod in productsList"
-    :key="prod.id"
-    :id="prod.id"
-    :title="prod.title"
-    :image="prod.image"
-    :description="prod.description"
-    :price="prod.price"
-  ></product-item> -->
-
-  <MovieCard :title="movies[0]?.title" />
 </template>
+<style scoped>
+.search-bar {
+  background: var(--secondary-color);
+  position: relative;
+  margin: 32px auto;
+  width: 100%;
+  height: 48px;
+  border-radius: 16px;
+}
+.text_area {
+  background: var(--secondary-color);
+  margin: 0 50px;
+  width: 72%;
+  height: 100%;
+  border: none;
+  outline: none;
+  border-radius: 16px;
+  color: var(--text-color);
+  font-size: large;
+}
+.search_icon {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  width: 24px;
+}
+
+.search_icon:hover {
+  opacity: 0.5;
+}
+.mic_icon:hover {
+  opacity: 0.5;
+}
+
+.mic_icon {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 40px;
+  height: 24px;
+}
+</style>

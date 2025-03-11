@@ -13,9 +13,10 @@ const routes = [
     component: List,
   },
   {
-    path: "/Details",
+    path: "/movie/:id",
     name: "details",
     component: Details,
+    props: true, // Pass movie ID as a prop to Details.vue
   },
 ];
 

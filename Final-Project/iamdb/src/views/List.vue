@@ -47,14 +47,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <Header />
-  <SearchBar />
-  <div v-if="noResults" style="color: aliceblue">
-    No movies found for "{{ searchQuery }}".<br />
-    Please try a different search.
-  </div>
+  <div class="container">
+    <Header />
+    <SearchBar />
+    <div v-if="noResults" style="color: aliceblue">
+      No movies found for "{{ searchQuery }}".<br />
+      Please try a different search.
+    </div>
 
-  <div v-if="movies.length > 0">
-    <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie" />
+    <div v-if="movies.length > 0">
+      <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie" />
+    </div>
   </div>
 </template>

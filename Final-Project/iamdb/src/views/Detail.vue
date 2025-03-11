@@ -1,52 +1,145 @@
 <script setup>
-import { useRouter } from "vue-router";
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { defineProps } from "vue";
+
+const props = defineProps({
+  movie: {
+    type: Object,
+    required: true,
+  },
+});
+
 const router = useRouter();
+const route = useRoute();
+const movie = ref(null);
+const loading = ref(true);
+const error = ref(null);
+const isFavorite = ref(false);
+
+onMounted(async () => {
+  const movieId = route.params.id;
+
+  if (!movieId) {
+    error.value = "Movie ID not found!";
+    loading.value = false;
+    return;
+  }
+
+  console.log("Fetching details for movie ID:", movieId);
+
+  try {
+    const response = await fetch(
+      `https://moviesapi.codingfront.dev/api/v1/movies/${movieId}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch movie details");
+    }
+
+    movie.value = await response.json();
+    console.log("Movie details fetched:", movie.value);
+  } catch (err) {
+    error.value = err.message;
+  } finally {
+    loading.value = false;
+  }
+});
+
 const goBack = () => {
-  router.replace("/list");
+  router.replace("/");
+};
+
+const toggleFavorite = () => {
+  isFavorite.value = !isFavorite.value;
 };
 </script>
+
 <template>
-  <div class="poster_container">
-    <img src="/Frame.png" alt="A Poster of Movie" class="movie_poster" />
-    <div class="overlay"></div>
-  </div>
-  <button class="back_btn" @click="goBack">
-    <img class="left_angle" src="/icons/back.svg" alt="left_angle" />
-  </button>
-  <div class="desc_wrap">
-    <h1 class="title">The Dark Knight</h1>
-    <h2 class="genre">Action, Crime, Drama</h2>
-    <p class="description">
-      When the menace known as the Joker wreaks havoc and chaos on the people of
-      Gotham, Batman must accept one of the greatest psychological and physical
-      tests of his ability to fight injustice.
-    </p>
-    <div class="metadata">
-      <div class="metadata_tag">PG-13</div>
-      <div class="metadata_tag">2008</div>
-      <div class="metadata_tag">
-        <img src="/icons/clock.svg" alt="clock icon" class="clock" />
-        <div>152 min</div>
-      </div>
+  <div v-if="movie">
+    <div
+      class="poster_container"
+      :style="{ backgroundImage: 'url(' + movie.images[0] + ')' }"
+    >
+      <div class="overlay"></div>
     </div>
-  </div>
-  <div class="ratings">
-    <div class="imdb">
-      <div class="rating_range">
-        <img src="/Group 14.png" alt="" />
+    <div class="container" v-if="movie">
+      <button class="back_btn" @click="goBack">
+        <img class="left_angle" src="/icons/back.svg" alt="left_angle" />
+      </button>
+      <div class="desc_wrap">
+        <h1 class="title">{{ movie.title }}</h1>
+        <h2 class="genre">{{ movie.genres.join(", ") }}</h2>
+        <p class="description">
+          {{ movie.plot }}
+        </p>
+        <div class="metadata">
+          <div class="metadata_tag">{{ movie.rated }}</div>
+          <div class="metadata_tag">{{ movie.year }}</div>
+          <div class="metadata_tag">
+            <img src="/icons/clock.svg" alt="clock icon" class="clock" />
+            <div>{{ movie.runtime }}</div>
+          </div>
+        </div>
       </div>
-      <div class="rate_wrap">
-        <div class="rate">2,528,462</div>
-        <div class="rate_text">Ratings on IMDB</div>
+      <div class="ratings">
+        <div class="imdb">
+          <div class="rating_range">
+            <img src="/Group 14.png" alt="" />
+          </div>
+          <div class="rate_wrap">
+            <div class="rate">{{ movie.imdb_rating }}</div>
+            <div class="rate_text">Ratings on IMDB</div>
+          </div>
+        </div>
+        <div class="other_rates">
+          94% on Rotten Tomatoes <br />
+          84/100 on Metacritic
+        </div>
       </div>
+      <div class="banner_container">
+        <img :src="movie.poster" alt="A banner of movie" class="banner" />
+      </div>
+
+      <div class="details-container">
+        <h2>Details</h2>
+        <div class="detail-row">
+          <span class="label">Directors:</span>
+          <span class="value">{{ movie.director }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Writers:</span>
+          <span class="value">J{{ movie.writers || "N/A" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Actors:</span>
+          <span class="value">{{ movie.actors }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Country:</span>
+          <span class="value">{{ movie.country }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Language:</span>
+          <span class="value">{{ movie.language || "English" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Awards:</span>
+          <span class="value">{{ movie.awards || "N/A" }}</span>
+        </div>
+      </div>
+      <transition name="fade">
+        <button v-if="!isFavorite" class="add-btn" @click="toggleFavorite">
+          Add to Favorite
+        </button>
+      </transition>
+
+      <transition name="fade">
+        <button v-if="isFavorite" class="remove-btn" @click="toggleFavorite">
+          Remove from Favorite
+        </button>
+      </transition>
     </div>
-    <div class="other_rates">
-      94% on Rotten Tomatoes <br />
-      84/100 on Metacritic
-    </div>
-  </div>
-  <div class="banner_container">
-    <img src="/banner.jpeg" alt="" class="banner" />
   </div>
 </template>
 
@@ -70,20 +163,11 @@ const goBack = () => {
 }
 .poster_container {
   width: 100%;
-  max-width: 430px;
   height: 350px;
   overflow: hidden;
-  position: relative;
-}
-.movie_poster {
-  margin-top: 50px;
-  width: 100%;
-  max-width: 430px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: scale(1.5);
-  z-index: -10;
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
 }
 .overlay {
   position: absolute;
@@ -110,7 +194,7 @@ const goBack = () => {
 .title {
   font-family: Inter;
   font-weight: 700;
-  font-size: 48px;
+  font-size: clamp(24px, 12vw, 48px);
 
   vertical-align: middle;
   color: rgba(255, 255, 255, 1);
@@ -174,6 +258,7 @@ const goBack = () => {
   justify-content: space-between;
   align-items: center;
   margin-top: 78px;
+  margin-bottom: 18px;
 }
 
 .imdb {
@@ -205,17 +290,97 @@ const goBack = () => {
   opacity: 50%;
 }
 .banner_container {
-  margin: 18px 12px 0 12px;
-  width: 406px;
-  height: 390px;
+  width: 100%;
+  max-width: 406px;
+  position: relative;
 }
 .banner {
   border-radius: 18px;
-  width: 406px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 406px;
   height: 100%;
-  object-fit: cover;
-  overflow: hidden;
-  object-position: top;
+}
+.add-btn {
+  position: sticky;
+  width: 100%;
+  bottom: 12px;
+  left: 0;
+  padding: 12px 24px;
+
+  border-radius: 12px;
+  background: var(--Accent, rgba(114, 76, 249, 1));
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 1);
+}
+.add-btn:hover {
+  opacity: 0.9;
+}
+
+.remove-btn {
+  position: sticky;
+  width: 100%;
+  bottom: 12px;
+  left: 0;
+  padding: 12px 24px;
+
+  border-radius: 12px;
+  background: var(--Primary, rgba(34, 44, 79, 1));
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 1);
+}
+.remove-btn:hover {
+  opacity: 0.9;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.details-container {
+  color: white;
+  border-radius: 8px;
+  width: 100%;
+}
+
+h2 {
+  font-size: 26px;
+  margin: 20px 0;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  align-items: center;
+  border-bottom: 1px solid rgba(34, 44, 79, 1);
+}
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: bold;
+  width: 45%;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: left;
+}
+
+.value {
+  font-family: Inter;
+  text-align: left;
+  width: 55%;
+  font-family: Inter;
+  font-weight: 200;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
 }
 </style>

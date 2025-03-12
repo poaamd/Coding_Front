@@ -4,19 +4,46 @@ import SearchBar from "@/components/SearchBar.vue";
 import MovieCard from "@/components/MovieCard.vue";
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-import { fetchMovies } from "@/utils/api.js";
+import { moviesStore } from "@/store/moviesStore.js";
 
+const store = moviesStore();
 const movies = ref([]);
 const searchQuery = ref("");
 const noResults = ref(false);
 const route = useRoute();
 
-// fetch movies by query
+const searchMoviesByGenre = async (genre) => {
+  if (genre) {
+    await store.getMovieGenre(genre);
+    movies.value = store.moviesList;
+    noResults.value = movies.value.length === 0;
+  } else {
+    movies.value = [];
+    noResults.value = false;
+  }
+};
+
+watch(
+  () => route.query.search,
+  (newSearch) => {
+    searchQuery.value = newSearch || "";
+    searchMoviesByGenre(searchQuery.value);
+  }
+);
+
+onMounted(() => {
+  const genreFromRoute = route.query.search;
+  if (genreFromRoute) {
+    searchQuery.value = genreFromRoute;
+    searchMoviesByGenre(genreFromRoute);
+  }
+});
 const searchMovies = async () => {
   if (searchQuery.value.trim() !== "") {
     try {
-      const data = await fetchMovies(searchQuery.value);
-      movies.value = data;
+      await store.getMovies(searchQuery.value);
+
+      movies.value = store.moviesList;
       noResults.value = movies.value.length === 0;
     } catch (error) {
       console.error("Error fetching movies:", error);
@@ -29,7 +56,6 @@ const searchMovies = async () => {
   }
 };
 
-// Watch
 watch(searchQuery, searchMovies);
 watch(
   () => route.query.search,
@@ -38,8 +64,8 @@ watch(
     searchMovies();
   }
 );
-//onMounted
 onMounted(() => {
+  searchMoviesByGenre();
   searchQuery.value = route.query.search || "";
   if (searchQuery.value) {
   }

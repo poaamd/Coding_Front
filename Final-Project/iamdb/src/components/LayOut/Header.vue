@@ -19,7 +19,7 @@ const goHome = () => {
 
 <style scoped>
 .header {
-  color: aliceblue;
+  color: var(--text-color);
   display: flex;
   justify-content: space-around;
   text-align: left;
@@ -43,23 +43,15 @@ const goHome = () => {
 }
 
 .result {
-  font-family: Inter;
   font-weight: 700;
   font-size: 18px;
-  line-height: 100%;
-  letter-spacing: 0%;
   text-align: center;
-  vertical-align: middle;
 }
 
 .search {
-  font-family: Inter;
   font-weight: 300;
   font-size: 12px;
-  line-height: 100%;
-  letter-spacing: 0%;
   text-align: center;
-  vertical-align: middle;
   opacity: 0.4;
 }
 </style>

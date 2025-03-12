@@ -2,6 +2,9 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { defineProps } from "vue";
+import { moviesStore } from "@/store/moviesStore.js";
+
+const store = moviesStore();
 
 const props = defineProps({
   movie: {
@@ -17,7 +20,7 @@ const loading = ref(true);
 const error = ref(null);
 const isFavorite = ref(false);
 
-onMounted(async () => {
+onMounted(() => {
   const movieId = route.params.id;
 
   if (!movieId) {
@@ -25,25 +28,11 @@ onMounted(async () => {
     loading.value = false;
     return;
   }
+  console.log(store.moviesList);
 
-  console.log("Fetching details for movie ID:", movieId);
-
-  try {
-    const response = await fetch(
-      `https://moviesapi.codingfront.dev/api/v1/movies/${movieId}`
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch movie details");
-    }
-
-    movie.value = await response.json();
-    console.log("Movie details fetched:", movie.value);
-  } catch (err) {
-    error.value = err.message;
-  } finally {
-    loading.value = false;
-  }
+  movie.value = store.getMovieDetails(movieId);
+  console.log("Movie details fetched:", movie.value);
+  loading.value = false;
 });
 
 const goBack = () => {
@@ -56,78 +45,84 @@ const toggleFavorite = () => {
 </script>
 
 <template>
-  <div v-if="movie">
-    <div
-      class="poster_container"
-      :style="{ backgroundImage: 'url(' + movie.images[0] + ')' }"
-    >
-      <div class="overlay"></div>
-    </div>
-    <div class="container" v-if="movie">
-      <button class="back_btn" @click="goBack">
-        <img class="left_angle" src="/icons/back.svg" alt="left_angle" />
-      </button>
-      <div class="desc_wrap">
-        <h1 class="title">{{ movie.title }}</h1>
-        <h2 class="genre">{{ movie.genres.join(", ") }}</h2>
-        <p class="description">
-          {{ movie.plot }}
-        </p>
-        <div class="metadata">
-          <div class="metadata_tag">{{ movie.rated }}</div>
-          <div class="metadata_tag">{{ movie.year }}</div>
-          <div class="metadata_tag">
-            <img src="/icons/clock.svg" alt="clock icon" class="clock" />
-            <div>{{ movie.runtime }}</div>
+  <div class="container">
+    <div class="css">
+      <div v-if="movie">
+        <div
+          class="poster_container"
+          :style="{
+            backgroundImage: 'url(' + movie.images[0] + ')',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }"
+        ></div>
+        <div class="overlay"></div>
+        <button class="back_btn" @click="goBack">
+          <img class="left_angle" src="/icons/back.svg" alt="left_angle" />
+        </button>
+        <div class="desc_wrap">
+          <h1 class="title">{{ movie.title }}</h1>
+          <h2 class="genre">{{ movie.genres.join(", ") }}</h2>
+          <p class="description">
+            {{ movie.plot }}
+          </p>
+          <div class="metadata">
+            <div class="metadata_tag">{{ movie.rated }}</div>
+            <div class="metadata_tag">{{ movie.year }}</div>
+            <div class="metadata_tag">
+              <img src="/icons/clock.svg" alt="clock icon" class="clock" />
+              <div>{{ movie.runtime }}</div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="ratings">
-        <div class="imdb">
-          <div class="rating_range">
-            <img src="/Group 14.png" alt="" />
+        <div class="ratings">
+          <div class="imdb">
+            <div class="rating_range">
+              <img src="/Group 14.png" alt="" />
+            </div>
+            <div class="rate_wrap">
+              <div class="rate">{{ movie.imdb_votes }}</div>
+              <div class="rate_text">Ratings on IMDB</div>
+            </div>
           </div>
-          <div class="rate_wrap">
-            <div class="rate">{{ movie.imdb_rating }}</div>
-            <div class="rate_text">Ratings on IMDB</div>
+          <div class="other_rates">
+            94% on Rotten Tomatoes <br />
+            84/100 on Metacritic
           </div>
         </div>
-        <div class="other_rates">
-          94% on Rotten Tomatoes <br />
-          84/100 on Metacritic
+        <div class="banner_container">
+          <img :src="movie.poster" alt="A banner of movie" class="banner" />
         </div>
-      </div>
-      <div class="banner_container">
-        <img :src="movie.poster" alt="A banner of movie" class="banner" />
+
+        <div class="details-container">
+          <h2>Details</h2>
+          <div class="detail-row">
+            <span class="label">Directors:</span>
+            <span class="value">{{ movie.director }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Writers:</span>
+            <span class="value">J{{ movie.writers || "N/A" }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Actors:</span>
+            <span class="value">{{ movie.actors }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Country:</span>
+            <span class="value">{{ movie.country }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Language:</span>
+            <span class="value">{{ movie.language || "English" }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Awards:</span>
+            <span class="value">{{ movie.awards || "N/A" }}</span>
+          </div>
+        </div>
       </div>
 
-      <div class="details-container">
-        <h2>Details</h2>
-        <div class="detail-row">
-          <span class="label">Directors:</span>
-          <span class="value">{{ movie.director }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="label">Writers:</span>
-          <span class="value">J{{ movie.writers || "N/A" }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="label">Actors:</span>
-          <span class="value">{{ movie.actors }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="label">Country:</span>
-          <span class="value">{{ movie.country }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="label">Language:</span>
-          <span class="value">{{ movie.language || "English" }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="label">Awards:</span>
-          <span class="value">{{ movie.awards || "N/A" }}</span>
-        </div>
-      </div>
       <transition name="fade">
         <button v-if="!isFavorite" class="add-btn" @click="toggleFavorite">
           Add to Favorite
@@ -152,6 +147,7 @@ const toggleFavorite = () => {
   left: 12px;
   top: 32px;
   width: 40px;
+  margin-top: -15px;
   background: var(--secondary-color);
   border-radius: 16px;
   padding: 10px;
@@ -162,6 +158,7 @@ const toggleFavorite = () => {
   scale: 1.2;
 }
 .poster_container {
+  margin: 0 auto;
   width: 100%;
   height: 350px;
   overflow: hidden;
@@ -174,7 +171,7 @@ const toggleFavorite = () => {
   top: 0;
   left: 0;
   width: 100%;
-  height: 400px;
+  height: 350px;
   background: linear-gradient(
     180deg,
     rgba(7, 13, 35, 0) 0%,
@@ -182,14 +179,14 @@ const toggleFavorite = () => {
     rgba(7, 13, 35, 0.9) 60%,
     #070d23 99%
   );
-  z-index: 1;
+  z-index: 0;
 }
 .desc_wrap {
   color: aliceblue;
   position: absolute;
   top: 172px;
   left: 12px;
-  z-index: 2;
+  margin-bottom: 18px;
 }
 .title {
   font-family: Inter;
@@ -257,8 +254,8 @@ const toggleFavorite = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 78px;
-  margin-bottom: 18px;
+  margin-top: 35%;
+  margin-bottom: 8%;
 }
 
 .imdb {
@@ -292,12 +289,11 @@ const toggleFavorite = () => {
 .banner_container {
   width: 100%;
   max-width: 406px;
-  position: relative;
+  height: 637px;
 }
 .banner {
   border-radius: 18px;
   width: 100%;
-  max-width: 406px;
   height: 100%;
 }
 .add-btn {
@@ -382,5 +378,78 @@ h2 {
   font-weight: 200;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.6);
+}
+
+@media (min-width: 400px) {
+  .css {
+    position: relative;
+    margin: 0 auto;
+  }
+  .container {
+    width: 1280px;
+    margin: 0 auto;
+  }
+  .add-btn {
+    display: none;
+  }
+  .remove-btn {
+    display: none;
+  }
+
+  .desc_wrap {
+    left: auto;
+    right: auto;
+  }
+  .poster_container {
+    width: 1280px;
+    height: 380px;
+  }
+
+  .back_btn {
+    left: auto;
+    right: auto;
+  }
+  .overlay {
+    height: 500px;
+  }
+  .desc_wrap {
+    position: absolute;
+    top: 190px;
+    left: 35%;
+  }
+  .description {
+    width: 642px;
+    height: 72px;
+    gap: 10px;
+  }
+  .banner_container {
+    position: absolute;
+    top: 190px;
+    left: 200px;
+  }
+  .banner {
+    width: 208px;
+    height: 311px;
+    border-radius: 18px;
+  }
+  .ratings {
+    display: block;
+    position: absolute;
+    top: 85px;
+    left: 200px;
+  }
+  .other_rates {
+    margin: 30px;
+    margin-left: -10px;
+  }
+
+  .details-container {
+    position: absolute;
+    left: 455px;
+    top: 420px;
+    width: 642px;
+    height: 314px;
+    gap: 6px;
+  }
 }
 </style>

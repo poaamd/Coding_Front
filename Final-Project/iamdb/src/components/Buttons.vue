@@ -1,21 +1,29 @@
 <script setup>
-import { ref, defineProps, computed } from "vue";
+import { ref, computed } from "vue";
 import genres from "@/utils/genres.js";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const isExpanded = ref(false);
-
 const displayGenres = computed(() => {
   return isExpanded.value ? genres : genres.slice(0, 4);
 });
 const showMore = () => {
   isExpanded.value = !isExpanded.value;
 };
+const searchMoviesByGenre = (genreName) => {
+  router.push({ name: "list", query: { search: genreName } });
+  console.log(`Search for genre: ${genreName}`);
+};
 </script>
-
 <template>
   <div class="container">
     <div class="genres" :key="isExpanded">
-      <button v-for="genre in displayGenres" :key="genre.id">
+      <button
+        v-for="genre in displayGenres"
+        :key="genre.id"
+        @click="searchMoviesByGenre(genre.name)"
+      >
         {{ genre.name }}
       </button>
     </div>
@@ -61,7 +69,9 @@ button:hover {
 }
 
 .toggle {
-  display: block;
   margin-top: 10px;
+}
+
+@media (min-width: 1024px) {
 }
 </style>

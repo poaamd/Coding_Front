@@ -4,20 +4,17 @@ import { useRouter } from "vue-router";
 
 const userInput = ref("");
 const router = useRouter();
-
 const searchMovies = async () => {
   if (userInput.value.trim()) {
     router.push({ name: "list", query: { search: userInput.value } });
   }
 };
-
 const handleKeyUp = (event) => {
   if (event.key === "Enter") {
     searchMovies();
   }
 };
 </script>
-
 <template>
   <div class="search-bar">
     <input

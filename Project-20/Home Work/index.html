@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/styles/index.css" />
+    <title>Dice Battle</title>
+  </head>
+  <body>
+    <div class="container">
+      <section class="title_img">
+        <h1 class="title">Roll Game</h1>
+        <img
+          src="./assets/images/dice.png"
+          alt="A picture of dice"
+          class="dice_pic"
+        />
+        <h2 id="resuText">Let's Play</h2>
+      </section>
+      <section class="button_results">
+        <div class="player_result">
+          <div class="name_tag">Player</div>
+          <div id="pResult">0</div>
+        </div>
+        <button onclick="getRandomNumber()" class="Roll_btn">Roll</button>
+        <div class="pc_result">
+          <div class="name_tag">Computer</div>
+          <div id="cResult">0</div>
+        </div>
+      </section>
+      <section class="key_pad">
+        <button onclick="getUserInput('1')">1</button>
+        <button onclick="getUserInput('2')">2</button>
+        <button onclick="getUserInput('3')">3</button>
+        <button onclick="getUserInput('4')">4</button>
+        <button onclick="getUserInput('5')">5</button>
+        <button onclick="getUserInput('6')">6</button>
+      </section>
+      <section>
+        <button onclick="showResult()">Show result</button>
+      </section>
+    </div>
+    <script src="./index.js"></script>
+  </body>
+</html>

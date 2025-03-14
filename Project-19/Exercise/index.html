@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>doooz</title>
+  </head>
+  <body>
+    <!-- <table>
+      <tr>
+        <td><input type="text" /></td>
+        <td><input type="text" /></td>
+        <td><input type="text" /></td>
+      </tr>
+      <tr>
+        <td><input type="text" /></td>
+        <td><input type="text" /></td>
+        <td><input type="text" /></td>
+      </tr>
+      <tr>
+        <td><input type="text" /></td>
+        <td><input type="text" /></td>
+        <td><input type="text" /></td>
+      </tr>
+    </table>
+    <button onclick="checkWinner()">check who is the Winner</button> -->
+    <table>
+      <tr>
+        <td>
+          <button onclick="select(1)">click</button>
+        </td>
+        <td>
+          <button onclick="select(2)">click</button>
+        </td>
+        <td>
+          <button onclick="select(3)">click</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button onclick="select(4)">click</button>
+        </td>
+        <td>
+          <button onclick="select(5)">click</button>
+        </td>
+        <td>
+          <button onclick="select(6)">click</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button onclick="select(7)">click</button>
+        </td>
+        <td>
+          <button onclick="select(8)">click</button>
+        </td>
+        <td>
+          <button onclick="select(9)">click</button>
+        </td>
+      </tr>
+    </table>
+    <!-- <button onclick="checkWinner()">Check</button> -->
+    <div id="board"></div>
+  </body>
+  <script>
+    // const checkWinner = () => {
+    //   const inputs = document.getElementsByTagName("input");
+    //   if (
+    //     inputs[0].value === inputs[1].value &&
+    //     inputs[0].value === inputs[2].value
+    //   ) {
+    //     console.log("We have a winner!");
+    //     console.log("Winner is " + inputs[0].value);
+    //   } else {
+    //     console.log("No Winner!");
+    //   }
+    // };
+
+    const PLAYER_1 = {
+        name: "Jay",
+        sign: "X",
+      };
+      const PLAYER_2 = {
+        name: "Parisa",
+        sign: "O",
+      };
+      const WINING_PATTERNS = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
+
+      let turn = 0;
+      const getPlayerInTurn = () => {
+        const isEven = !!(turn % 2);
+        if (isEven) {
+          return PLAYER_1;
+        }
+        return PLAYER_2;
+      };
+
+      const updateBoard = (str) => {
+        const board = document.getElementById("board");
+        board.innerText = str;
+      };
+
+      const goNextRound = () => {
+        turn = turn + 1;
+        const nextPlayer = getPlayerInTurn();
+        updateBoard("Turn: " + nextPlayer.name);
+      };
+
+      const checkWinner = () => {
+        const btns = document.getElementsByTagName("button");
+
+        const currentPlayer = getPlayerInTurn();
+
+        if (
+          WINING_PATTERNS.some((pattern) => {
+            return pattern.every((cell) => {
+              return btns[cell].innerText === currentPlayer.sign;
+            });
+          })
+        ) {
+          updateBoard(currentPlayer.name + " is the Winner!");
+          return true;
+        }
+
+        // if every cell was filled, it's a draw
+        if (turn === 8) {
+          updateBoard("Draw!!");
+          return true;
+        }
+
+        // continue game
+        return false;
+      };
+
+      const select = (cellNumber) => {
+        const currentPlayer = getPlayerInTurn();
+        const btn = document.getElementsByTagName("button")[cellNumber - 1];
+
+        btn.innerText = currentPlayer.sign;
+        btn.disabled = true;
+
+        const isFinished = checkWinner();
+        if (!isFinished) {
+          goNextRound();
+        }
+      };
+
+      updateBoard("Turn: " + getPlayerInTurn().name);
+    </script>
+  </script>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>hi</h1>
+
+    <div id="app">
+      <input v-model="username" type="text" />
+      <div>{{username}}</div>
+      <hr />
+      <ul>
+        <li v-for="boys in people">{{boys.name}}:{{boys.age}}</li>
+      </ul>
+      <div>My name is {{person.name}}</div>
+      <div>And iam {{person.age}} years old</div>
+      <hr />
+      {{counter}}
+      <button @click="add">add</button>
+    </div>
+
+    <script src="./vue.global.js"></script>
+    <script>
+      const { createApp, ref } = Vue;
+
+      createApp({
+        setup() {
+          const people = [
+            {
+              name: "Javid",
+              age: 30,
+            },
+            {
+              name: "Ali",
+              age: 40,
+            },
+            {
+              name: "Pouya",
+              age: 29,
+            },
+            {
+              name: "Amin",
+              age: 40,
+            },
+            {
+              name: "Armin",
+              age: 34,
+            },
+          ];
+          const counter = ref(1);
+          const addFunc = () => {
+            // people.value.push({ name: "nora", age: 30 });
+          };
+          const username = ref("jay");
+          return {
+            person: {
+              name: "jay",
+              age: 30,
+            },
+            counter,
+            add: addFunc,
+            people,
+            username,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

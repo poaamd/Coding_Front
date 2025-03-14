@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>breakfast</title>
+  </head>
+  <body>
+    <script>
+      const breakfast = () => {
+        const userInput = prompt(
+          "How do you want to boild your eggs ?\n\nPlease enter one of options listed below ! \n  (5)  for: Soft.\n (10) for: Medium.\n (15) for: Hard."
+        );
+        const checkValidInput = () => {
+          const boilingAlert = (userInput) => {
+            alert(
+              `You chose option ${userInput}, I will alert you after ${userInput} minutes`
+            );
+            setTimeout((userInput) => {
+              alert("You'r Eggs it's ready now, Cheers ;P");
+            }, userInput * 1000);
+          };
+          switch (userInput) {
+            case "5":
+            case "soft":
+              return boilingAlert(5);
+            case "10":
+              return boilingAlert(userInput);
+            case "15":
+              return boilingAlert(userInput);
+            default:
+              alert(
+                "Please enter a valid input, Chose between 3 options: 5, 10, 15"
+              );
+              return breakfast();
+          }
+        };
+        checkValidInput();
+      };
+      breakfast();
+    </script>
+  </body>
+</html>

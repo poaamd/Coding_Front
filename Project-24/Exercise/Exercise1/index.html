@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .pink {
+        background: pink;
+      }
+      .blue {
+        background: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- <div>
+        <label for="search">Search</label>
+        <input v-model="query" type="text" id="search" />
+      </div> -->
+      <!-- <div>
+        <label for="Male">Male</label>
+        <input
+          v-model="genderQuery"
+          type="radio"
+          name="gender"
+          id="Male"
+          value="Male"
+        />
+        <label for="Female">Female</label>
+        <input
+          v-model="genderQuery"
+          type="radio"
+          name="gender"
+          id="Female"
+          value="Female"
+        />
+      </div> -->
+      <select v-model="query">
+        <option disabled>Select Job</option>
+        <option v-for="job in jobs" :value="job">{{job}}</option>
+      </select>
+      <!-- <div v-for="jobs in people.flatMap(p => p.jobs)">{{jobs}}</div> -->
+      query {{ query }}
+
+      <div>
+        <label for="checkbox" name="checkbox">Age based sort</label>
+        <input type="checkbox" name="checkbox" id="checkbox" />
+      </div>
+      <h1>Younget person name is: {{youngestPerson}}</h1>
+      <ul>
+        <li v-for="person in filteredPeople">
+          <div>
+            <strong>{{person.name}}</strong>
+            <!-- <small :class="person.gender === 'Female' ? 'pink' : 'blue'">
+              {{person.gender}}
+            </small> -->
+            <small :class="getGenderClass(person.gender)"
+              >{{person.gender}}</small
+            >
+          </div>
+          <small> ( {{ person.jobs.join(' - ') }} ) </small>
+        </li>
+      </ul>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="./vue.global.js"></script>
+  <script>
+    const { createApp, ref, watch, computed } = Vue;
+    const { uniq, sortBy } = _;
+
+    createApp({
+      setup() {
+        const people = [
+          {
+            name: "Alice Johnson",
+            gender: "Female",
+            age: 29,
+            jobs: ["Software Engineer", "Freelance Writer"],
+          },
+          {
+            name: "Michael Smith",
+            gender: "Male",
+            age: 35,
+            jobs: ["Project Manager", "Consultant"],
+          },
+          {
+            name: "Sophia Lee",
+            gender: "Female",
+            age: 24,
+            jobs: ["Graphic Designer", "Software Engineer"],
+          },
+          {
+            name: "James Brown",
+            gender: "Male",
+            age: 42,
+            jobs: ["Marketing Specialist", "Consultant"],
+          },
+          {
+            name: "Isabella Martinez",
+            gender: "Female",
+            age: 31,
+            jobs: ["Data Scientist", "AI Researcher", "Software Engineer"],
+          },
+          {
+            name: "Ethan Wilson",
+            gender: "Male",
+            age: 28,
+            jobs: ["Web Developer", "UI/UX Designer", "Freelance Writer"],
+          },
+          {
+            name: "Mia Chen",
+            gender: "Female",
+            age: 27,
+            jobs: ["Content Creator", "SEO Analyst", "Freelance Writer"],
+          },
+          {
+            name: "Liam Anderson",
+            gender: "Male",
+            age: 34,
+            jobs: ["Civil Engineer", "Project Manager", "Construction Manager"],
+          },
+          {
+            name: "Olivia Thomas",
+            gender: "Female",
+            age: 30,
+            jobs: ["Psychologist", "Career Coach", "Consultant"],
+          },
+          {
+            name: "Noah Patel",
+            gender: "Male",
+            age: 26,
+            jobs: ["Entrepreneur", "Investor", "Marketing Specialist"],
+          },
+        ];
+
+        const query = ref("");
+        const genderQuery = ref("");
+
+        const getGenderClass = (gender) => {
+          return gender === "Female" ? "pink" : "blue";
+        };
+        const sortedPeople = computed(() => {
+          if (true) {
+            return sortBy(people, ["age"]);
+          }
+          return people;
+        });
+        const filteredPeople = computed(() => {
+          return sortedPeople.value.filter((person) => {
+            // filter by search in job
+            return person.jobs.some((job) =>
+              job.toLowerCase().includes(query.value.toLowerCase().trim())
+            );
+
+            // filter by gender
+            // return genderQuery.value
+            //   ? person.gender === genderQuery.value
+            //   : true;
+
+            return true;
+          });
+        });
+
+        const jobs = computed(() =>
+          uniq(people.flatMap((person) => person.jobs))
+        );
+
+        const youngestPerson = computed(
+          () => sortBy(filteredPeople.value, ["age"])[0]
+        );
+        // const youngestPersonsname = youngestPerson.name;
+
+        return {
+          people,
+          query,
+          genderQuery,
+          jobs,
+          getGenderClass,
+          filteredPeople,
+          youngestPerson,
+          // youngestPersonsname,
+        };
+      },
+    }).mount("#app");
+  </script>
+</html>

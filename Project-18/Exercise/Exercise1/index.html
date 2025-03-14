@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Hi</h1>
+    <script>
+      const getUserName = () => {
+        const input = prompt("Whats your name?");
+        if (!!input) {
+          return input;
+        }
+        alert("I need u name!");
+        return getUserName();
+        //recursive function
+      };
+
+      //   const userName = getUserName();
+      //   alert("hi " + userName);
+
+      const getUserBirthMonthNumber = () => {
+        const input = prompt("what month were you born?");
+
+        if (!!input) {
+          return input;
+        }
+
+        alert("I need your birth month!");
+        return getUserBirthMonthNumber();
+      };
+
+      const getMonthNameByIndex = (index) => {
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+        return months[index];
+      };
+
+      //   const brithIndex = getUserBirthMonthNumber() - 1;
+      //   const brithMonth = getMonthNameByIndex(brithIndex);
+      //   console.log(brithMonth);
+
+      const getInput = () => {
+        const userInput = prompt("Enter a number: ");
+        if (isNaN(+userInput) || !userInput) {
+          alert("Enter a Number please!");
+          return getInput();
+        }
+        return userInput;
+      };
+      //   const value = getInput();
+
+      //   setTimeout(() => {
+      //     alert("you can see this alert after " + value + " Second");
+      //   }, value * 1000);
+    </script>
+  </body>
+</html>

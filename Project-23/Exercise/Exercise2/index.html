@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <label for="search">Search</label>
+      <input v-model="query" type="text" id="search" />
+      <button @click="search">Search</button>
+    </div>
+    <ul>
+      <li v-for="person in result">{{person.name}}</li>
+    </ul>
+    <ul>
+      <li v-for="person in filteredPeople">{{person.name}}</li>
+    </ul>
+
+    <script src="./vue.global.js"></script>
+    <script>
+      const { createApp, ref, watch, computed } = Vue;
+
+      createApp({
+        setup() {
+          const people = [
+            {
+              name: "Alice Johnson",
+              gender: "Female",
+              age: 29,
+              jobs: ["Software Engineer", "Freelance Writer"],
+            },
+            {
+              name: "Michael Smith",
+              gender: "Male",
+              age: 35,
+              jobs: ["Project Manager", "Consultant"],
+            },
+            {
+              name: "Sophia Lee",
+              gender: "Female",
+              age: 24,
+              jobs: ["Graphic Designer", "Software Engineer"],
+            },
+            {
+              name: "James Brown",
+              gender: "Male",
+              age: 42,
+              jobs: ["Marketing Specialist", "Consultant"],
+            },
+            {
+              name: "Isabella Martinez",
+              gender: "Female",
+              age: 31,
+              jobs: ["Data Scientist", "AI Researcher", "Software Engineer"],
+            },
+            {
+              name: "Ethan Wilson",
+              gender: "Male",
+              age: 28,
+              jobs: ["Web Developer", "UI/UX Designer", "Freelance Writer"],
+            },
+            {
+              name: "Mia Chen",
+              gender: "Female",
+              age: 27,
+              jobs: ["Content Creator", "SEO Analyst", "Freelance Writer"],
+            },
+            {
+              name: "Liam Anderson",
+              gender: "Male",
+              age: 34,
+              jobs: [
+                "Civil Engineer",
+                "Project Manager",
+                "Construction Manager",
+              ],
+            },
+            {
+              name: "Olivia Thomas",
+              gender: "Female",
+              age: 30,
+              jobs: ["Psychologist", "Career Coach", "Consultant"],
+            },
+            {
+              name: "Noah Patel",
+              gender: "Male",
+              age: 26,
+              jobs: ["Entrepreneur", "Investor", "Marketing Specialist"],
+            },
+          ];
+          const query = ref("");
+          const result = ref(people);
+          const search = () => {
+            people.filter((person) => {
+              return person.name
+                .toLowerCase()
+                .includes(query.value.toLowerCase().trim());
+            });
+          };
+          people.filter((person) => {
+            return person.name
+              .toLowerCase()
+              .includes(query.value.toLowerCase().trim());
+          });
+          const filteredPeople = computed(() => {
+            return people.filter((person) => {
+              return person.name
+                .toLowerCase()
+                .includes(query.value.toLowerCase().trim());
+            });
+          });
+          return {
+            people,
+            query,
+            filteredPeople,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

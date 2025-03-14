@@ -13,7 +13,6 @@ const showMore = () => {
 };
 const searchMoviesByGenre = (genreName) => {
   router.push({ name: "list", query: { search: genreName } });
-  console.log(`Search for genre: ${genreName}`);
 };
 </script>
 <template>
@@ -70,8 +69,5 @@ button:hover {
 
 .toggle {
   margin-top: 10px;
-}
-
-@media (min-width: 1024px) {
 }
 </style>

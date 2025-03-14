@@ -380,7 +380,7 @@ h2 {
   color: rgba(255, 255, 255, 0.6);
 }
 
-@media (min-width: 400px) {
+@media (min-width: 500px) {
   .css {
     position: relative;
     margin: 0 auto;

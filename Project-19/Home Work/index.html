@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/styles/index.css" />
+    <title>Paper Rock Scissors</title>
+  </head>
+  <body>
+    <div class="container">
+      <table>
+        <tr>
+          <td>
+            <button data-choice="Paper">Paper</button>
+          </td>
+          <td>
+            <button data-choice="Paper">Paper</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button data-choice="Rock">Rock</button>
+          </td>
+          <td>
+            <button data-choice="Rock">Rock</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button data-choice="Scissors">Scissors</button>
+          </td>
+          <td>
+            <button data-choice="Scissors">Scissors</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <script>
+      const buttons = document.getElementsByTagName("button");
+      let playerChoices = [];
+
+      const determineWinner = () => {
+        const [choice1, choice2] = playerChoices;
+
+        if (choice1 === choice2) return "It's a tie!";
+        if (
+          (choice1 === "Rock" && choice2 === "Scissors") ||
+          (choice1 === "Scissors" && choice2 === "Paper") ||
+          (choice1 === "Paper" && choice2 === "Rock")
+        ) {
+          return "Player 1 wins!";
+        }
+        return "Player 2 wins!";
+      };
+
+      const handleClick = (event) => {
+        const choice = event.target.dataset.choice;
+        playerChoices.push(choice);
+
+        // Disable the clicked button
+        event.target.disabled = true;
+
+        if (playerChoices.length === 2) {
+          // Show the winner after both players make a choice
+          alert(determineWinner());
+          // Reset the game
+          playerChoices = [];
+          Array.from(buttons).forEach((btn) => (btn.disabled = false));
+        }
+      };
+
+      // Attach event listeners to all buttons
+      Array.from(buttons).forEach((button) =>
+        button.addEventListener("click", handleClick)
+      );
+    </script>
+  </body>
+</html>

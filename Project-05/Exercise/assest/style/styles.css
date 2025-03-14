@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0%;
+  background: gray;
+}
+
+.container {
+  width: 820px;
+  padding: 10px;
+  background-color: azure;
+}
+
+.row {
+  background: yellow;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+  /* justify-content: space-around; */
+  justify-content: space-evenly;
+  /* justify-content: center; */
+  flex-direction: row-reverse;
+}
+
+.box {
+  border: solid 1px red;
+  padding: 10px;
+  width: 25%;
+  margin-bottom: 1px;
+}

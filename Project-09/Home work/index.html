@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hover to Move Image</title>
+    <style>
+      /* Container to hold the image */
+      .container {
+        overflow: hidden;
+        width: 100%;
+      }
+
+      /* Style for the image */
+      .moving-image {
+        width: 200px; /* Adjust the size of the image */
+        transition: transform 1s; /* Smooth transition when not hovering */
+      }
+
+      /* Apply animation on hover */
+      .moving-image:hover {
+        animation: slide 1s forwards; /* Move the image on hover */
+      }
+
+      /* Keyframes for the animation */
+      @keyframes slide {
+        from {
+          transform: translateX(0);
+        } /* Start at original position */
+        to {
+          transform: translateX(100px);
+        } /* Move 100px to the right */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img src="your-image.jpg" alt="Moving Image" class="moving-image" />
+    </div>
+  </body>
+</html>
